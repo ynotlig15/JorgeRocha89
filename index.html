@@ -3,61 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerador de E-mails</title>
+    <title>Gerador de E-mails e Senhas</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: black; /* Fundo preto */
-            background-image: url('https://images.unsplash.com/photo-1682999959985-66f1a4875740?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cCVDMyVCNHIlMjBkbyUyMHNvbCUyMG5hJTIwcHJhaWF8ZW58MHx8MHx8fDA%3D'); /* Imagem de fundo */
-            background-size: cover; /* A imagem preenche todo o fundo */
-            background-repeat: no-repeat; /* Impede que a imagem se repita */
-            background-position: center; /* Centraliza a imagem */
-            color: white; /* Texto branco */
+            background-color: black; 
+            background-image: url('https://images.unsplash.com/photo-1682999959985-66f1a4875740?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cCVDMyVCNHIlMjBkbyUyMHNvbCUyMG5hJTIwcHJhaWF8ZW58MHx8MHx8fDA%3D'); 
+            background-size: cover; 
+            background-repeat: no-repeat; 
+            background-position: center; 
+            color: white; 
         }
         .container {
-            background-color: rgba(0, 0, 0, 0.8); /* Fundo escuro semi-transparente */
+            background-color: rgba(0, 0, 0, 0.8); 
             padding: 20px;
             border-radius: 8px;
         }
         input {
-            background-color: rgba(255, 255, 255, 0.9); /* Fundo claro para o input */
-            color: black; /* Texto preto no input */
+            background-color: rgba(255, 255, 255, 0.9); 
+            color: black; 
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            width: 100%; /* Largura total */
-            box-sizing: border-box; /* Para incluir o padding e border no total da largura */
+            width: 100%; 
+            box-sizing: border-box; 
         }
         button {
-            background-color: rgba(255, 255, 255, 0.9); /* Fundo claro para o botão */
-            color: black; /* Texto preto no botão */
+            background-color: rgba(255, 255, 255, 0.9); 
+            color: black; 
             border: none;
             padding: 10px 15px;
             border-radius: 4px;
             cursor: pointer;
-            margin-top: 10px; /* Espaço acima do botão */
+            margin-top: 10px; 
         }
         button:hover {
-            background-color: rgba(200, 200, 200, 0.9); /* Efeito hover para o botão */
+            background-color: rgba(200, 200, 200, 0.9); 
         }
         footer {
             text-align: center;
             padding: 30px;
-            background-color: rgba(40, 44, 52, 0.8); /* Fundo semi-transparente para legibilidade */
+            background-color: rgba(40, 44, 52, 0.8); 
             color: white;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Gerador de E-mails com Pontos</h1>
+        <h1>Gerador de E-mails e Senhas</h1>
+
+        <h2>Gerador de E-mails</h2>
         <input type="text" id="email" placeholder="Digite seu email@gmail.com">
-        <button onclick="gerarEmails()">Gerar</button>
-        <h2>Emails Gerados:</h2>
+        <button onclick="gerarEmails()">Gerar E-mails</button>
+        <h3>Emails Gerados:</h3>
         <p id="contador"></p>
         <ul id="resultados"></ul>
+
+        <h2>Gerador de Senhas</h2>
+        <button onclick="gerarSenha()">Gerar Senha</button>
+        <p id="senhaGerada"></p>
     </div>
 
     <script>
@@ -72,27 +78,21 @@
             const [nome, dominio] = email.split('@');
             const resultados = document.getElementById('resultados');
             const contador = document.getElementById('contador');
-            resultados.innerHTML = ''; // Limpa resultados anteriores
-            contador.textContent = ''; // Limpa o contador anterior
+            resultados.innerHTML = ''; 
+            contador.textContent = ''; 
 
-            const emails = new Set(); // Usar um Set para evitar duplicatas
+            const emails = new Set();
 
-            // Função recursiva para adicionar pontos
             function adicionarVariacoes(current, index) {
                 if (index === nome.length) {
                     emails.add(current + '@' + dominio);
                     return;
                 }
-
-                // Sem ponto
                 adicionarVariacoes(current + nome[index], index + 1);
-                // Com ponto
                 adicionarVariacoes(current + nome[index] + '.', index + 1);
             }
 
             adicionarVariacoes('', 0);
-
-            // Limitar o número de emails exibidos
             const maxEmails = 4096;
             let count = 0;
 
@@ -105,8 +105,22 @@
                 }
             });
 
-            // Exibe o contador de emails gerados
             contador.textContent = `Total de e-mails gerados: ${emails.size}`;
+        }
+
+        function gerarSenha() {
+            const senha = gerarSenhaAleatoria(12); // Gera uma senha de 12 caracteres
+            document.getElementById('senhaGerada').textContent = `Senha gerada: ${senha}`;
+        }
+
+        function gerarSenhaAleatoria(tamanho) {
+            const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
+            let senha = '';
+            for (let i = 0; i < tamanho; i++) {
+                const indice = Math.floor(Math.random() * caracteres.length);
+                senha += caracteres.charAt(indice);
+            }
+            return senha;
         }
 
         function atualizarDataHora() {
@@ -115,7 +129,7 @@
         }
         
         setInterval(atualizarDataHora, 1000);
-        atualizarDataHora(); // Inicializa a data e hora ao carregar a página
+        atualizarDataHora(); 
     </script>
 
     <footer>
