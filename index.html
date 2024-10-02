@@ -4,6 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerador de E-mails</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: #282c34;
+            color: white;
+        }
+    </style>
 </head>
 <body>
     <h1>Gerador de E-mails com Pontos</h1>
@@ -14,6 +28,12 @@
     <ul id="resultados"></ul>
 
     <script>
+        let startTime = Date.now();
+        setInterval(() => {
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            document.getElementById('tempoAberto').textContent = `Tempo com a página aberta: ${elapsed} segundos`;
+        }, 1000);
+
         function gerarEmails() {
             const email = document.getElementById('email').value;
             const [nome, dominio] = email.split('@');
@@ -55,6 +75,23 @@
             // Exibe o contador de emails gerados
             contador.textContent = `Total de e-mails gerados: ${emails.size}`;
         }
+
+        function atualizarDataHora() {
+            const agora = new Date();
+            document.getElementById('dataHora').textContent = agora.toLocaleString('pt-BR');
+        }
+        
+        setInterval(atualizarDataHora, 1000);
+        atualizarDataHora(); // Inicializa a data e hora ao carregar a página
     </script>
+
+    <footer>
+        <h1 style="font-size: 48px; margin: 0;">Jorge Rocha 89</h1>
+        <p style="font-size: 24px;">Inspire-se, conecte-se e transforme ideias em realidade!</p>
+        <p id="dataHora" style="font-size: 18px;"></p>
+        <p id="tempoAberto" style="font-size: 18px;"></p>
+        <p style="font-size: 18px;">&copy; 2024 Jorge Rocha. Todos os direitos reservados. <br> Siga-nos nas redes sociais e faça parte da nossa comunidade!</p>
+        <p><a href="#" style="color: #61dafb; text-decoration: none;">Entre em contato</a></p>
+    </footer>
 </body>
 </html>
